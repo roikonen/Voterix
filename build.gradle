@@ -1,0 +1,32 @@
+group 'roikonen'
+version '1.0-SNAPSHOT'
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '3.1'
+  distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+}
+
+apply plugin: 'scala'
+apply plugin: 'application'
+
+repositories {
+    mavenCentral()
+}
+
+mainClassName = "roikonen.voterix.Main"
+
+dependencies {
+    compile "ch.qos.logback:logback-classic:${logback_version}"
+    compile "com.typesafe.akka:akka-actor_${scala_version}:${akka_version}"
+    compile "com.typesafe.akka:akka-http-core_${scala_version}:${akka_version}"
+    compile "com.typesafe.akka:akka-http-experimental_${scala_version}:${akka_version}"
+    compile "com.typesafe.akka:akka-slf4j_${scala_version}:${akka_version}"
+    compile "com.typesafe.scala-logging:scala-logging_${scala_version}:${scala_logging_version}"
+    compile "org.scala-lang:scala-library:${scala_version}.${scala_version_patch}"
+}
+
+// https://discuss.gradle.org/t/idea-integration-with-scala-plugin-broken-since-gradle-3-0-no-such-property-daemonserver/19159
+ScalaCompileOptions.metaClass.daemonServer = true
+ScalaCompileOptions.metaClass.fork = true
+ScalaCompileOptions.metaClass.useAnt = false
+ScalaCompileOptions.metaClass.useCompileDaemon = false
